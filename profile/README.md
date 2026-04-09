@@ -13,9 +13,9 @@ Standard diffusion-based speech enhancement (SGMSE+, CDiffuSE) starts from Gauss
 | Phase | Content | Status |
 |---|---|---|
 | **1** | **γ-tuned bridge** — UniDB-style γ parameter controls bridge tightness. Sweep γ ∈ {0.1, 1} on speech mel-spectrograms. | 🔄 training |
-| **2a** | **Degradation-adaptive γ** — learn γ(degradation_type) instead of scalar γ. Noise→low γ, clipping→high γ. | planned |
-| **2b** | **Bridge Flow Matching** — replace SDE with ODE flow for 10x sampling speedup. No teacher needed. | planned |
-| **2c** | **Perceptual SOC** — neural optimal control with DNSMOS/NISQA as differentiable cost function. | exploratory |
+| **2a** | **Degradation-adaptive γ** — learn γ(degradation_type) instead of scalar γ. Noise→low γ, clipping→high γ. | 🔄 training |
+| **2b** | **Bridge Flow Matching** — replace SDE with ODE flow for 8-step sampling. No teacher needed. | 🔄 training |
+| **2c** | **Perceptual SOC** — neural optimal control with BigVGAN + SQUIM as differentiable cost. | 🔄 training |
 | **3** | **Paper** — ablation study across all phases + audio demo site. | future |
 
 ## Architecture
@@ -45,7 +45,7 @@ Degraded speech (waveform)
    │  │   ODE flow, 4-8 steps        │  │
    │  ├──────────────────────────────┤  │
    │  │ Phase 2c: perceptual SOC     │  │
-   │  │   cost = DNSMOS surrogate    │  │
+   │  │   cost = BigVGAN + SQUIM     │  │
    │  └──────────────────────────────┘  │
    └────────────────────────────────────┘
         │
@@ -65,6 +65,7 @@ Degraded speech (waveform)
 |---|---|---|
 | [**mc-ddbm**](https://github.com/speech-refinement/mc-ddbm) | Baseline DDBM + conditioning experiments (Axis A, completed). Includes mel I/O, vocoder, dataset, degradation, eval metrics. Source for `core` extraction. | v0.1.0 |
 | [**soc-bridge**](https://github.com/speech-refinement/soc-bridge) | Main research repo. γ-tuned bridge, adaptive γ, flow matching, perceptual SOC. | active |
+| [**gui**](https://github.com/speech-refinement/gui) | Gradio + Node UI for interactive inference. | active |
 | **core** *(Stage 1)* | Shared library: mel I/O, vocoder, dataset, degradation, eval, base UNet, training scaffold. | planned |
 | [**meta**](https://github.com/speech-refinement/meta) | Governance: shared hooks, agents, roadmap, research docs. | active |
 | [**.github**](https://github.com/speech-refinement/.github) | This README + org-wide config. | active |
@@ -84,8 +85,10 @@ Degraded speech (waveform)
 | Phase 1: γ-tuned bridge implementation | ✅ complete |
 | Phase 1: γ={1, 0.1} training | 🔄 running (GPU 0, 1) |
 | DCT feasibility (function-space prep) | ✅ PASS (SNR 25+ dB) |
-| Phase 2a: degradation-adaptive γ | 📋 design |
-| Phase 2b: bridge flow matching | 📋 planned |
+| Phase 2a: degradation-adaptive γ | 🔄 training (GPU 2, 3) |
+| Phase 2b: bridge flow matching | 🔄 training (GPU 2, 3) |
+| Phase 2c: perceptual SOC (BigVGAN+SQUIM) | 🔄 training (GPU 2) |
+| GUI separation | ✅ complete |
 | Stage 0: workspace bootstrap | ✅ complete |
 | Stage 1: core extraction | ⏳ pending |
 
