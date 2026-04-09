@@ -137,15 +137,34 @@ The most important meta-rule, inherited from poppo: **memory is not a fix.** If 
 - **Docker** as the primary runtime (host installs are debugging-only)
 - **GitHub Actions** for CI (lint via `ruff`, import smoke tests, mc-ddbm pin validation)
 
+## Getting started
+
+```bash
+mkdir speech-refinement && cd speech-refinement
+git clone https://github.com/speech-refinement/meta.git
+bash meta/scripts/bootstrap.sh
+```
+
+This clones all repos, sets up the shared `.claude/` governance layer (hooks, agents), and creates a VS Code workspace. Then start working:
+
+```bash
+claude                  # Claude Code CLI
+# or
+code .vscode/speech-refinement.code-workspace   # VS Code
+```
+
+See [`meta/README.md`](https://github.com/speech-refinement/meta) for details on the hook architecture.
+
 ## Status
 
 | Item | Status |
 |---|---|
 | GitHub Org created | ✅ 2026-04-08 |
 | `.github` repo (this README placed) | ✅ 2026-04-08 |
+| `meta` repo (governance layer) | ✅ 2026-04-09 |
 | `soc-bridge` initial push | ✅ 2026-04-08 |
-| `mc-ddbm` migrated from GitLab | ⏳ pending (waits for Phase D v2 completion) |
-| Stage 0 cutover complete | ⏳ pending |
+| `mc-ddbm` migrated from GitLab | ✅ 2026-04-09 |
+| Stage 0 cutover complete | ✅ 2026-04-09 |
 | Stage 1 `core` extraction | ⏳ pending |
 | Stage 1-after: README mc-ddbm description update to `core`-dependent form | ⏳ pending (Stage 1 follow-up) |
 | First publication | ⏳ pending |
