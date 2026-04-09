@@ -10,7 +10,7 @@ We deliberately split the research into **three orthogonal axes** so each contri
 
 | Axis | Improves | Repo | Status |
 |---|---|---|---|
-| **A** | **Conditioning** — text / region mask / NL quality descriptor for controllable refinement | [`mc-ddbm`](https://github.com/speech-refinement/mc-ddbm) | active |
+| **A** | **Conditioning** — transcript text / region mask / NL quality descriptor for controllable refinement | [`mc-ddbm`](https://github.com/speech-refinement/mc-ddbm) | active |
 | **B** | **Generative process** — Stochastic Optimal Control (SOC) bridge with UniDB-style γ; function-space lift via DBFS | [`soc-bridge`](https://github.com/speech-refinement/soc-bridge) | active |
 | **C** | **Sampling speedup** — Consistency Model / Consistency Trajectory Model distillation | `fast-sampling` | future |
 | **∪** | **Best-of unification** — combines A + B + C into one model | `unified` | future |
@@ -33,7 +33,7 @@ Degraded speech (waveform)
    │  Diffusion bridge model            │
    │  ┌──────────────────────────────┐  │
    │  │ Axis A: conditioning         │  │
-   │  │   - mask concat              │  │
+   │  │   - region mask concat       │  │
    │  │   - transcript cross-attn    │  │
    │  │   - NL descriptor FiLM       │  │
    │  ├──────────────────────────────┤  │
@@ -103,10 +103,9 @@ Per-repo branching strategies are intentional: long-running experiments + freque
 3. **Phase 3** — perceptually-weighted cost functionals; per-degradation γ optimization; degradation physics in forward drift.
 
 ### `mc-ddbm` phases (Axis A)
-- **Phase A** — transcript conditioning (XPhoneBERT cross-attention)
 - **Phase B** — region mask conditioning (SDEdit-style variable noise)
-- **Phase D** — NL quality descriptor conditioning (sentence-transformers + FiLM)
-- **Integration** — multi-conditional CFG combining A + B + D
+- **Phase A** — transcript conditioning (XPhoneBERT cross-attention)
+- **Phase D** — multi-conditional integration: NL quality descriptor (sentence-transformers + FiLM) combined with Phase A and Phase B via independent classifier-free guidance weights
 
 ### Org-wide stages
 - **Stage 0** — bootstrap. mc-ddbm migrated from GitLab → GitHub. soc-bridge initialized. Sibling-clone editable-install dependency.
@@ -143,13 +142,14 @@ The most important meta-rule, inherited from poppo: **memory is not a fix.** If 
 | Item | Status |
 |---|---|
 | GitHub Org created | ✅ 2026-04-08 |
-| `.github` repo (this README placed) | 🚧 in progress |
+| `.github` repo (this README placed) | ✅ 2026-04-08 |
+| `soc-bridge` initial push | ✅ 2026-04-08 |
 | `mc-ddbm` migrated from GitLab | ⏳ pending (waits for Phase D v2 completion) |
-| `soc-bridge` initial push | ⏳ pending |
 | Stage 0 cutover complete | ⏳ pending |
 | Stage 1 `core` extraction | ⏳ pending |
+| Stage 1-after: README mc-ddbm description update to `core`-dependent form | ⏳ pending (Stage 1 follow-up) |
 | First publication | ⏳ pending |
 
 ## License
 
-All repositories are **private** during the research phase. We plan to extract the shared `core` library to a permissive open-source license after the first publication of results.
+All repositories are **private** during the active research phase. The team intends to release the shared `core` library under a permissive open-source license once research results have been published, but the publication target, license selection, and contributor agreement are still under discussion.
